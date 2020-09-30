@@ -117,46 +117,31 @@ def get_direction_kbd():
 def get_direction(head, last_direction):
     x=head[0]
     y=head[1]
-    if x == 0:
-        if y == 0 :
-            if last_direction==LEFT:
-                DOWN
-            else:
-                return LEFT
-    if x == CELLWIDTH-1:
-        if y == 0 :
-            if last_direction==RIGHT:
-                DOWN
-            else:
-                return LEFT
-
-    if x == CELLWIDTH-1:
-        if y == CELLHEIGHT-1 :
-            if last_direction==LEFT:
-                UP
-            else:
-                return RIGHT
-    if x == 0:
-        if y == CELLHEIGHT -1:
-            if last_direction==LEFT:
-                UP
-            else:
-                return RIGHT
-    if x==CELLWIDTH-1:
-        if last_direction==RIGHT:
-            return random.choice([UP,DOWN])
-        else :
+    if x == 1:
+        if y == CELLHEIGHT - 1:
             return LEFT
-    if y==CELLHEIGHT-1:
-        return random.choice([LEFT,RIGHT])
-    if x==0:
-        if last_direction==LEFT:
-            return random.choice([UP,DOWN])
-        else :
+        elif y == 0:
             return RIGHT
-    if y==0:
-        return random.choice([LEFT,RIGHT])
-    return last_direction
+        if last_direction == LEFT:
+            return DOWN
+        elif last_direction == DOWN:
+            return RIGHT
+    elif x >= 1 and x <= CELLWIDTH-2:
+        if last_direction == RIGHT:
+            return RIGHT
+        elif last_direction == LEFT:
+            return LEFT
+    elif x == (CELLWIDTH-1):
+        if last_direction == RIGHT:
+            return DOWN
+        elif last_direction == DOWN:
+            return LEFT
+    elif x == 0:
+        if y != 0:
+            return UP
+        else:
+            return RIGHT
+
 
 while True:
     
