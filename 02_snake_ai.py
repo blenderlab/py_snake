@@ -48,11 +48,11 @@ CELLHEIGHT = int(height / CELLSIZE)
 playSurface = pygame.display.set_mode(size)
 
 pygame.display.set_caption("Snake Game")
+
 # FPS controller
 fpsController = pygame.time.Clock()
 
 # Game settings
-delta = 10
 snakePos = [int(CELLWIDTH/2), int(CELLHEIGHT/2)]
 snakeBody = [snakePos[0]]
 foodPos = [4, 5]
@@ -189,8 +189,8 @@ while True:
 
     playSurface.fill(black)
     for pos in snakeBody:
-        pygame.draw.rect(playSurface, green, pygame.Rect(pos[0]*delta, pos[1]*delta, delta, delta))
-    pygame.draw.rect(playSurface, brown, pygame.Rect(foodPos[0]*delta, foodPos[1]*delta, delta, delta))
+        pygame.draw.rect(playSurface, green, pygame.Rect(pos[0]*CELLSIZE, pos[1]*CELLSIZE, CELLSIZE, CELLSIZE))
+    pygame.draw.rect(playSurface, brown, pygame.Rect(foodPos[0]*CELLSIZE, foodPos[1]*CELLSIZE, CELLSIZE, CELLSIZE))
    
     # Getting out of bounds
     if snakePos[0] < 0 or snakePos[0] >= CELLWIDTH:

@@ -44,14 +44,21 @@ pygame.display.set_caption("Snake Game")
 fpsController = pygame.time.Clock()
 
 # Game settings
-delta = 10
-snakePos = [100, 50]
-snakeBody = [[100, 50], [90, 50], [80, 50]]
-foodPos = [400, 50]
+CELLSIZE = 10
+
+assert width % CELLSIZE == 0, "Window width must be a multiple of cell size."
+assert height % CELLSIZE == 0, "Window height must be a multiple of cell size."
+CELLWIDTH = int(width / CELLSIZE)
+CELLHEIGHT = int(height / CELLSIZE)
+
+snakePos = [int(CELLWIDTH/2), int(CELLHEIGHT/2)]
+snakeBody = [snakePos[0]]
+foodPos = [4, 5]
 foodSpawn = False
 direction = RIGHT
 changeto = ''
 score = 0
+
 
 
 # Game Over
@@ -108,13 +115,13 @@ while True:
 
     # Update snake position
     if direction == RIGHT:
-        snakePos[0] += delta
+        snakePos[0] += 1
     if direction == LEFT:
-        snakePos[0] -= delta
+        snakePos[0] -= 1
     if direction == DOWN:
-        snakePos[1] += delta
+        snakePos[1] += 1
     if direction == UP:
-        snakePos[1] -= delta
+        snakePos[1] -= 1
 
     # Snake body mechanism
     snakeBody.insert(0, list(snakePos))
@@ -124,12 +131,12 @@ while True:
     else:
         snakeBody.pop()
     if foodSpawn == False:
-        foodPos = [random.randrange(1, width // 10) * delta, random.randrange(1, height // 10) * delta]
+        foodPos = [random.randrange(1, CELLWIDTH) * CELLSIZE, random.randrange(1, CELLHEIGHT) *CELLSIZE]
         foodSpawn = True
     playSurface.fill(black)
     for pos in snakeBody:
-        pygame.draw.rect(playSurface, green, pygame.Rect(pos[0], pos[1], delta, delta))
-    pygame.draw.rect(playSurface, brown, pygame.Rect(foodPos[0], foodPos[1], delta, delta))
+        pygame.draw.rect(playSurface, green, pygame.Rect(pos[0]*CELLSIZE, pos[1], CELLSIZE, CELLSIZE))
+    pygame.draw.rect(playSurface, brown, pygame.Rect(foodPos[0], foodPos[1], CELLSIZE, CELLSIZE))
 
 
     # Self hit
