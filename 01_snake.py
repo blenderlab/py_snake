@@ -76,7 +76,7 @@ def gameOver():
 
 # Show Score
 def showScore(choice=1):
-    SFont = pygame.font.SysFont('monaco')
+    SFont = pygame.font.SysFont('monaco',10)
     Ssurf = SFont.render("Score  :  {0}".format(score), True, black)
     Srect = Ssurf.get_rect()
     if choice == 1:
@@ -135,7 +135,7 @@ while True:
         foodSpawn = True
     playSurface.fill(black)
     for pos in snakeBody:
-        pygame.draw.rect(playSurface, green, pygame.Rect(pos[0]*CELLSIZE, pos[1], CELLSIZE, CELLSIZE))
+        pygame.draw.rect(playSurface, green, pygame.Rect(pos[0]*CELLSIZE, pos[1]*CELLSIZE*, CELLSIZE, CELLSIZE))*
     pygame.draw.rect(playSurface, brown, pygame.Rect(foodPos[0], foodPos[1], CELLSIZE, CELLSIZE))
 
 
@@ -146,3 +146,4 @@ while True:
     showScore()
     pygame.display.flip()
     fpsController.tick(20)
+    
