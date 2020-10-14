@@ -20,11 +20,11 @@ RIGHT = 4
 
 
 # Colors
-red = pygame.Color(255, 255, 255)
-green = pygame.Color(255, 255, 255)
+red = pygame.Color(255, 20, 20)
+green = pygame.Color(20, 255,20)
 black = pygame.Color(0, 0, 0)
 white = pygame.Color(255, 255, 255)
-brown = pygame.Color(165, 42, 42)
+brown = pygame.Color(20, 22, 22)
 
 # Pygame Init
 init_status = pygame.init()
@@ -68,23 +68,35 @@ def gameOver():
     GOrect = GOsurf.get_rect()
     GOrect.midtop = (320, 25)
     playSurface.blit(GOsurf, GOrect)
+    SFont = pygame.font.SysFont('monaco',10)
+    Ssurf = SFont.render("{0}".format(score), True, red)
+    Srect = Ssurf.get_rect()
+    Srect.midtop = (320, 40)
+    playSurface.blit(Ssurf, Srect)
     pygame.display.flip()
+
     time.sleep(4)
     pygame.quit()
     sys.exit()
 
 
-# Show Score
-def showScore(choice=1):
-    SFont = pygame.font.SysFont('monaco',10)
-    Ssurf = SFont.render("Score  :  {0}".format(score), True, black)
-    Srect = Ssurf.get_rect()
-    if choice == 1:
-        Srect.midtop = (80, 10)
-    else:
-        Srect.midtop = (320, 100)
-    playSurface.blit(Ssurf, Srect)
+#draw game terrain :
+def drawGame():
+    playSurface.fill(black)
+    for pos in snakeBody:
+        pygame.draw.rect(playSurface, green, pygame.Rect(pos[0]*CELLSIZE, pos[1]*CELLSIZE, CELLSIZE-1, CELLSIZE-1))
+    pygame.draw.rect(playSurface, red, pygame.Rect(foodPos[0]*CELLSIZE, foodPos[1]*CELLSIZE, CELLSIZE, CELLSIZE))
+    for i in range(CELLWIDTH):
+        pygame.draw.line(playSurface, brown,(i*CELLSIZE,0),(i*CELLSIZE,height))
+    for i in range(CELLHEIGHT):
+        pygame.draw.line(playSurface, brown,(0,i*CELLSIZE),(width,i*CELLSIZE))
 
+    SFont = pygame.font.SysFont('monaco',30)
+    Ssurf = SFont.render("{0}".format(score), True, white)
+    Srect = Ssurf.get_rect()
+    Srect.midtop = (80, 10)
+    playSurface.blit(Ssurf, Srect)
+        
 
 while True:
     for event in pygame.event.get():
@@ -104,9 +116,9 @@ while True:
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
 
     # Validate direction
-    if changeto == LEFT and direction != LEFT:
+    if changeto == LEFT and direction != RIGHT:
         direction = changeto
-    if changeto == RIGHT and direction != RIGHT:
+    if changeto == RIGHT and direction != LEFT:
         direction = changeto
     if changeto == UP and direction != DOWN:
         direction = changeto
@@ -131,19 +143,16 @@ while True:
     else:
         snakeBody.pop()
     if foodSpawn == False:
-        foodPos = [random.randrange(1, CELLWIDTH) * CELLSIZE, random.randrange(1, CELLHEIGHT) *CELLSIZE]
+        foodPos = [random.randrange(1, CELLWIDTH) , random.randrange(1, CELLHEIGHT)]
         foodSpawn = True
-    playSurface.fill(black)
-    for pos in snakeBody:
-        pygame.draw.rect(playSurface, green, pygame.Rect(pos[0]*CELLSIZE, pos[1]*CELLSIZE*, CELLSIZE, CELLSIZE))*
-    pygame.draw.rect(playSurface, brown, pygame.Rect(foodPos[0], foodPos[1], CELLSIZE, CELLSIZE))
-
+   
+    drawGame()
 
     # Self hit
     for block in snakeBody[1:]:
         if snakePos == block:
             gameOver()
-    showScore()
+    
     pygame.display.flip()
     fpsController.tick(20)
     
